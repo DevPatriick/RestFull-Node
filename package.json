@@ -1,0 +1,22 @@
+{
+  "name": "project-node",
+  "version": "1.0.0",
+  "description": "Este é o acompanhamento do progresso no curso de Node.js. O curso tem um total de **16 aulas**, e atualmente estou na **aula 4**. Aqui você pode ver o progresso e as etapas concluídas até agora.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevPatriick/RestFull-Node.git"
+  },
+  "author": "Patrick Andrade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevPatriick/RestFull-Node/issues"
+  },
+  "homepage": "https://github.com/DevPatriick/RestFull-Node#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
