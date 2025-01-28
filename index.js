@@ -1,40 +1,14 @@
 // carreguei o modulo do expres 
 const express = require('express');
+// importando minha rota do index e users
+const routesIndex = require('./routes/index.js');
+const routesUser = require('./routes/users.js');
 
 // app recebe o express
 const app = express();
-
-// agora eu não preciso criar o servidor o express mesmo cria
-// quando o navegador acessar a rota localhost:3000 vai fazer um get da informação
-app.get('/',(req, res)=>{
-      // aqui estou definindo status caso caia aqui 200 'ok'
-      res.statusCode = 200
-      // aqui estou informando qual tipo de conteudo o navegador vai receber
-      // text/html diz que ele vai receber uma pagina htmpl
-      res.setHeader('Content-Type', 'text/html')
-      // aqui é o corpo da resposta que o navegador vai receber
-      res.end('<h1>Olá</h1>')
-});
-
-
-// quando o navegador acessar a rota localhost:3000/users vai fazer um get da informação
-app.get('/users', (req, res)=>{
-      // aqui estou definindo status caso caia aqui 200 'ok'
-      res.statusCode = 200
-      // aqui estou dizendo que o tipo do conteudo recebi vai ser um json
-      res.setHeader('Content-Type', 'application/json');
-      // aqui estou recebendo meu json
-      // com o express ao inves de usar o JSONstringify posso deixar res.json 
-      // users é um array com as informações do meu usuário (id, name, email)
-      res.json({
-          users: [{
-              id: 1,
-              name: "Patrick",
-              email: "andrade.patrickreis@gmail.com"
-          }]
-      })
-});
-   
+// Chamando todas as rotas com o use
+app.use(routesIndex); 
+app.use('/users', routesUser);
 
 // agora eu digo para o meu servidor ficar escutando as requisições
 // na porta 3000 e o endereço ip 
