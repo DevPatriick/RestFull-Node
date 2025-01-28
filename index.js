@@ -9,7 +9,38 @@ const http = require('http');
 let server = http.createServer((req, res)=>{
     console.log('url:', req.url)
     console.log('url:', req.method)
-    res.end('ok');
+    
+    // neste switch estou analisando a url que foi acessada no navegador
+    // caso seja apenas localhost:3000
+    // aparece na tela o ola mundo
+    switch (req.url){
+        case '/':
+            // aqui estou definindo status caso caia aqui 200 'ok'
+            res.statusCode = 200
+            // aqui estou informando qual tipo de conteudo o navegador vai receber
+            // text/html diz que ele vai receber uma pagina htmpl
+            res.setHeader('Content-Type', 'text/html')
+            // aqui é o corpo da resposta que o navegador vai receber
+            res.end('<h1>Olá</h1>')
+            break;
+        // neste caso se foi acessado localhost:3000/users vai receber o json 
+        case '/users':
+            // aqui estou definindo status caso caia aqui 200 'ok'
+            res.statusCode = 200
+            // aqui estou dizendo que o tipo do conteudo recebi vai ser um json
+            res.setHeader('Content-Type', 'application/json');
+            // aqui estou recebendo meu json
+            // JSON.stringify converte o objeto em uma string no formato JSON
+            // users é um array com as informações do meu usuário (id, name, email)
+            res.end(JSON.stringify({
+                users: [{
+                    id: 1,
+                    name: "Patrick",
+                    email: "andrade.patrickreis@gmail.com"
+                }]
+            }))
+            break;
+    }
 })
 
 // agora eu digo para o meu servidor ficar escutando as requisições
