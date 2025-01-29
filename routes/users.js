@@ -12,7 +12,7 @@ let db = new NeDB({
     autoload: true
 })
 
-module.exports = (app)=> {
+module.exports = (app) => {
 
     // como não vou ter mais uma url padrão crie uma variavel para iniciar a rota
     const routesUsers = app.route('/users');
@@ -22,16 +22,16 @@ module.exports = (app)=> {
         // estou usando o trycatch par tratamento de erros, caso de certo o get
         // ele executa o try, buscando todos os usuários
         // se der erro ele me devolve um error
-        db.find({}, (err, user)=>{
+        db.find({}, (err, user) => {
             try {
-                res.status(200).json({user})
+                res.status(200).json({ user })
             } catch (error) {
                 // dentro do app tem o utils dentro do utils eu acesso o error e dentro do error tem o send
                 // criado para tratar o error
                 app.utils.error.send(err, req, res)
             }
         })
-       
+
     });
 
     // definindo uma rota para usuarios admin
@@ -41,28 +41,44 @@ module.exports = (app)=> {
         // faço também o tratamento dos erros, se err for true ele exibe o erro 
         // e o status 400 passando o json com o erro
         // caso o err for false ele da o status 200 'ok' e me mosta o user que foi incluido
-        db.insert(req.body, (err, user)=>{
-            if(err){
-               app.utils.error.send(err, req, res)
+        db.insert(req.body, (err, user) => {
+            if (err) {
+                app.utils.error.send(err, req, res)
             } else {
-                res.status(200).json({user})
+                res.status(200).json({ user })
             }
         })
-       
+
     })
 
 
-   // criando uma variavel para buscar apenas o user pelo id
+    // criando uma variavel para buscar apenas o user pelo id
     const routesUserId = app.route('/users/:id');
 
     // faço o get do routesUserId, usando agora o metodo findOne para listar apenas um usuário
     // agora eu digo para ele buscar na requisição o parametro id e passo ela para o _id
     // se der certo ele me retorna o usuario deste id
-    routesUserId.get((req, res)=>{
-        
-        db.findOne({_id:req.params.id}, (err, user)=>{
+    routesUserId.get((req, res) => {
+
+        db.findOne({ _id: req.params.id }, (err, user) => {
             try {
-                res.status(200).json({user})
+                res.status(200).json({ user })
+            } catch (error) {
+                app.utils.error.send(err, req, res)
+            }
+        })
+    })
+
+
+    // atualizando um usuário, recebo o id do user pela rota
+    // o metodo agora é update
+    // para no param o id e a requisição do body
+    // para conseguir ver o json do id e dos dados do usuário
+    // coloquei o object.assign para mesclar as informações
+    routesUserId.put((req, res) => {
+        db.update({ _id: req.params.id }, req.body, (err) => {
+            try {
+                res.status(200).json(Object.assign(req.params, req.body))
             } catch (error) {
                 app.utils.error.send(err, req, res)
             }
