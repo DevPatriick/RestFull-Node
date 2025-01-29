@@ -84,4 +84,16 @@ module.exports = (app) => {
             }
         })
     })
+
+
+    // removendo os usuários 
+    routesUserId.delete((req, res)=>{
+        db.remove({ _id: req.params.id }, err=>{
+            try {
+                res.status(200).json('Usuário Excluído com Sucesso')
+            } catch (error) {
+                app.utils.error.send(err, req, res)
+            }
+        })
+    })
 };
