@@ -3,6 +3,15 @@
 // com isso eu perco a função de deixar uma rota padrão no meu index.js
 // como por exemplo /users
 
+// chamando o nedb
+let NeDB = require('nedb');
+
+// criando o banco de dados
+let db = new NeDB({
+    filename: 'user.db',
+    autoload: true
+})
+
 module.exports = (app)=> {
 
     // como não vou ter mais uma url padrão crie uma variavel para iniciar a rota
@@ -30,8 +39,21 @@ module.exports = (app)=> {
 
     // definindo uma rota para usuarios admin
     app.post(routesUsers, (req, res) => {
-       
-        res.json(req.body);
+
+        // no meu db eu chamo o metodo insert para ele enviar os dados que estão vindo do body
+        // faço também o tratamento dos erros, se err for true ele exibe o erro 
+        // e o status 400 passando o json com o erro
+        // caso o err for false ele da o status 200 'ok' e me mosta o user que foi incluido
+        db.insert(req.body, (err, user)=>{
+            if(err){
+                console.log(`error: ${err}`);
+                res.status(400).json({
+                    error: err
+                })
+            } else {
+                res.status(200).json(user)
+            }
+        })
        
     })
 };
