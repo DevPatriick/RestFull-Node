@@ -1,14 +1,13 @@
 // carreguei o modulo do expres 
 const express = require('express');
-// importando minha rota do index e users
-const routesIndex = require('./routes/index.js');
-const routesUser = require('./routes/users.js');
+// carregando o modulo do consign
+const consign = require('consign');
 
 // app recebe o express
 const app = express();
-// Chamando todas as rotas com o use
-app.use(routesIndex); 
-app.use('/users', routesUser);
+// chamo o consign e incluo a pasta routes no app
+consign().include('routes').into(app);
+
 
 // agora eu digo para o meu servidor ficar escutando as requisições
 // na porta 3000 e o endereço ip 

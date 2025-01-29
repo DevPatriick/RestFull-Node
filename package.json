@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DevPatriick/RestFull-Node#readme",
   "dependencies": {
+    "consign": "^0.1.6",
     "express": "^4.21.2"
   }
 }
