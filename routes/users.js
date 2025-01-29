@@ -50,4 +50,22 @@ module.exports = (app)=> {
         })
        
     })
+
+
+   // criando uma variavel para buscar apenas o user pelo id
+    const routesUserId = app.route('/users/:id');
+
+    // faço o get do routesUserId, usando agora o metodo findOne para listar apenas um usuário
+    // agora eu digo para ele buscar na requisição o parametro id e passo ela para o _id
+    // se der certo ele me retorna o usuario deste id
+    routesUserId.get((req, res)=>{
+        
+        db.findOne({_id:req.params.id}, (err, user)=>{
+            try {
+                res.status(200).json({user})
+            } catch (error) {
+                app.utils.error.send(err, req, res)
+            }
+        })
+    })
 };
