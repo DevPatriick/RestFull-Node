@@ -20,21 +20,18 @@ module.exports = (app)=> {
     // quando o navegador acessar a rota localhost:3000/users vai fazer um get da informação
     // agora ao inves de ter o app eu uso o routes
     app.get(routesUsers, (req, res) => {
-        // aqui estou definindo status caso caia aqui 200 'ok'
-        res.statusCode = 200
-        // aqui estou dizendo que o tipo do conteudo recebi vai ser um json
-        res.setHeader('Content-Type', 'application/json');
-        // aqui estou recebendo meu json
-        // com o express ao inves de usar o JSONstringify posso deixar res.json 
-        // users é um array com as informações do meu usuário (id, name, email)
-        res.json({
-            users: [{
-                id: 1,
-                name: "Patrick",
-                email: "andrade.patrickreis@gmail.com",
-                admin: "Não"
-            }]
+        // usando o metodo find, passando um objeto vazio para ele listar todos os usuários
+        // estou usando o trycatch par tratamento de erros, caso de certo o get
+        // ele executa o try, buscando todos os usuários
+        // se der erro ele me devolve um error
+        db.find({}, (err, user)=>{
+            try {
+                res.status(200).json({user})
+            } catch (error) {
+                res.status(400).json(`Error: ${error}`)
+            }
         })
+       
     });
 
     // definindo uma rota para usuarios admin
