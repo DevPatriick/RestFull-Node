@@ -1,10 +1,27 @@
 // carreguei o modulo do expres 
 const express = require('express');
+
 // carregando o modulo do consign
 const consign = require('consign');
 
+// carregando o modulo do body-parser
+const bodyParser = require('body-parser')
+
 // app recebe o express
 const app = express();
+
+// Pelo o que eu pesquisei o body parse já está inbutido no express, então eu posso fazer diferente 
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+
+// faz com que o express consiga interpretar os dados enviados 
+// extended: false diz que ele só aceita objetos simples ( array não são permitidos )
+// app.use(bodyParser.urlencoded({extended: false}))
+
+// todos os dados que receber via post eu posso acessar como um objeto
+// exemplo console.log(req.body.name);
+// app.use(bodyParser.json())
+
 // chamo o consign e incluo a pasta routes no app
 consign().include('routes').into(app);
 
@@ -22,4 +39,4 @@ let mesage = `Servidor rodando na porta: ${port} no ip: ${adressIp}`
 // listen recebe a posta e o endereço ip, depois executa uma função.
 app.listen(port, adressIp, ()=>{
      console.log(mesage)
-})
+});

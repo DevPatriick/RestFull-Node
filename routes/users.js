@@ -29,21 +29,9 @@ module.exports = (app)=> {
     });
 
     // definindo uma rota para usuarios admin
-    app.get(routesUsers + '/admin', (req, res) => {
-        // aqui estou definindo status caso caia aqui 200 'ok'
-        res.statusCode = 200
-        // aqui estou dizendo que o tipo do conteudo recebi vai ser um json
-        res.setHeader('Content-Type', 'application/json');
-        // aqui estou recebendo meu json
-        // com o express ao inves de usar o JSONstringify posso deixar res.json 
-        // users é um array com as informações do meu usuário (id, name, email)
-        res.json({
-            users: [{
-                id: 1,
-                name: "Patrick Admin",
-                email: "andrade.admin@gmail.com",
-                admin: "Sim"
-            }]
-        })
+    app.post(routesUsers, (req, res) => {
+       
+        res.json(req.body);
+       
     })
 };
