@@ -23,7 +23,7 @@ app.use(express.json())
 // app.use(bodyParser.json())
 
 // chamo o consign e incluo a pasta routes no app
-consign().include('routes').into(app);
+consign().include('routes').include('utils').into(app);
 
 
 // agora eu digo para o meu servidor ficar escutando as requisições
@@ -34,9 +34,7 @@ consign().include('routes').into(app);
 const port = 3000;
 const adressIp = '127.0.0.1';
 
-let mesage = `Servidor rodando na porta: ${port} no ip: ${adressIp}`
-
 // listen recebe a posta e o endereço ip, depois executa uma função.
 app.listen(port, adressIp, ()=>{
-     console.log(mesage)
+     app.utils.mensager.mesage(port, adressIp)
 });

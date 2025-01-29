@@ -15,11 +15,9 @@ let db = new NeDB({
 module.exports = (app)=> {
 
     // como não vou ter mais uma url padrão crie uma variavel para iniciar a rota
-    // depois disso ela é concatenada com o restante da rota
-    const routesUsers = '/users';
+    const routesUsers = app.route('/users');
     // quando o navegador acessar a rota localhost:3000/users vai fazer um get da informação
-    // agora ao inves de ter o app eu uso o routes
-    app.get(routesUsers, (req, res) => {
+    routesUsers.get((req, res) => {
         // usando o metodo find, passando um objeto vazio para ele listar todos os usuários
         // estou usando o trycatch par tratamento de erros, caso de certo o get
         // ele executa o try, buscando todos os usuários
@@ -28,14 +26,16 @@ module.exports = (app)=> {
             try {
                 res.status(200).json({user})
             } catch (error) {
-                res.status(400).json(`Error: ${error}`)
+                // dentro do app tem o utils dentro do utils eu acesso o error e dentro do error tem o send
+                // criado para tratar o error
+                app.utils.error.send(err, req, res)
             }
         })
        
     });
 
     // definindo uma rota para usuarios admin
-    app.post(routesUsers, (req, res) => {
+    routesUsers.post((req, res) => {
 
         // no meu db eu chamo o metodo insert para ele enviar os dados que estão vindo do body
         // faço também o tratamento dos erros, se err for true ele exibe o erro 
@@ -43,12 +43,9 @@ module.exports = (app)=> {
         // caso o err for false ele da o status 200 'ok' e me mosta o user que foi incluido
         db.insert(req.body, (err, user)=>{
             if(err){
-                console.log(`error: ${err}`);
-                res.status(400).json({
-                    error: err
-                })
+               app.utils.error.send(err, req, res)
             } else {
-                res.status(200).json(user)
+                res.status(200).json({user})
             }
         })
        
