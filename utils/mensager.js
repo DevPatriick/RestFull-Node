@@ -1,6 +1,6 @@
 module.exports = {
-    mesage: (port, adressIp)=>{
-        console.log(`Servidor rodando na porta: ${port} no ip: ${adressIp}`)
+    mesage: (port, addressIp)=>{
+        console.log(`Servidor rodando em http://${addressIp}:${port}`)
     }
 }
 

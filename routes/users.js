@@ -6,6 +6,10 @@
 // chamando o nedb
 let NeDB = require('nedb');
 
+// chamando o express-validator
+// const validatorUser = require('../middlewares/validationUsers');
+
+
 // criando o banco de dados
 let db = new NeDB({
     filename: 'user.db',
@@ -35,8 +39,8 @@ module.exports = (app) => {
     });
 
     // definindo uma rota para usuarios admin
-    routesUsers.post((req, res) => {
-
+    // passo o validatorUser para ver se os campos estão corretos
+    routesUsers.post(app.middlewares.validationUsers.user(app), (req, res) => {
         // no meu db eu chamo o metodo insert para ele enviar os dados que estão vindo do body
         // faço também o tratamento dos erros, se err for true ele exibe o erro 
         // e o status 400 passando o json com o erro
@@ -76,6 +80,7 @@ module.exports = (app) => {
     // para conseguir ver o json do id e dos dados do usuário
     // coloquei o object.assign para mesclar as informações
     routesUserId.put((req, res) => {
+        if(!app.middlewares.validationUsers.user(app, req, res)) return false;
         db.update({ _id: req.params.id }, req.body, (err) => {
             try {
                 res.status(200).json(Object.assign(req.params, req.body))

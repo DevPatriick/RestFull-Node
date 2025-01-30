@@ -5,14 +5,17 @@ const express = require('express');
 const consign = require('consign');
 
 // carregando o modulo do body-parser
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
+
+// carregando o modulo do express-validator
+// const expressValidator = require('express-validator');
 
 // app recebe o express
 const app = express();
 
 // Pelo o que eu pesquisei o body parse já está inbutido no express, então eu posso fazer diferente 
 app.use(express.urlencoded({extended: false}))
-app.use(express.json())
+app.use(express.json());
 
 // faz com que o express consiga interpretar os dados enviados 
 // extended: false diz que ele só aceita objetos simples ( array não são permitidos )
@@ -23,7 +26,7 @@ app.use(express.json())
 // app.use(bodyParser.json())
 
 // chamo o consign e incluo a pasta routes no app
-consign().include('routes').include('utils').into(app);
+consign().include('utils').include('middlewares').include('routes').into(app);
 
 
 // agora eu digo para o meu servidor ficar escutando as requisições
@@ -32,9 +35,9 @@ consign().include('routes').include('utils').into(app);
 // criei uma mensagem também para quando servidor rodar exibir no console
 
 const port = 3000;
-const adressIp = '127.0.0.1';
+const addressIp = '127.0.0.1';
 
 // listen recebe a posta e o endereço ip, depois executa uma função.
-app.listen(port, adressIp, ()=>{
-     app.utils.mensager.mesage(port, adressIp)
+app.listen(port, addressIp, ()=>{
+     app.utils.mensager.mesage(port, addressIp)
 });
