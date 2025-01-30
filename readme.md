@@ -45,6 +45,18 @@ Este projeto é um servidor HTTP simples construído com **Node.js** e **Express
 └── package.json     # Gerenciador de dependências
 ```
 
+## 🏗 Arquitetura do Projeto
+Este projeto segue uma **arquitetura modular**, com separação de responsabilidades em diferentes diretórios:
+- **Routes (Rotas)**: Define os endpoints da API.
+- **Middlewares**: Gerencia validações e regras de negócios.
+- **Utils**: Contém funções auxiliares.
+- **Banco de Dados (NeDB)**: Utilizado para armazenar os dados de forma simples e eficiente.
+
+A estrutura segue um modelo **MVC simplificado**:
+- **Model (Modelo)**: Representado pelo NeDB para armazenar dados.
+- **Controller (Controlador)**: As funções dentro das rotas atuam como controladores, processando requisições e interagindo com o banco de dados.
+- **View (Visão)**: Como é uma API, a "visão" se resume às respostas JSON enviadas ao cliente.
+
 ## 🔧 Endpoints
 ### 📌 Rota Principal
 - `GET /` → Retorna "Olá" como resposta
@@ -65,7 +77,6 @@ Caso os dados sejam inválidos, um erro será retornado.
 
 ## 🛠 Testes com Postman
 Utilizamos o **Postman** para testar as requisições HTTP e garantir que o servidor responde corretamente às rotas criadas. As solicitações foram feitas para validar os endpoints e o comportamento esperado do servidor.
-
 
 ---
 **🚀 Vamos codar!**
